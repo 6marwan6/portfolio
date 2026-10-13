@@ -1,0 +1,100 @@
+import { L, type Project } from "./types";
+
+export const shortsMaker: Project = {
+  id: "shorts-maker",
+  order: 5,
+  status: "in-progress",
+  statusNote: L("In progress. The first phases are implemented.", "قيد التنفيذ. المراحل الأولى منفّذة."),
+  confidentiality: "public",
+  title: L("Shorts Maker", "Shorts Maker"),
+  role: L("Designed and building solo", "صمّمته وأبنيه بمفردي"),
+  oneLiner: L(
+    "A pipeline that turns long videos into ranked short-form clips by understanding the video's structure first and ranking with evidence, not hype.",
+    "مسار معالجة يحوّل الفيديوهات الطويلة إلى مقاطع قصيرة مرتّبة، بفهم بنية الفيديو أولًا والترتيب بالأدلة لا بالحماس.",
+  ),
+  story: [
+    L(
+      "The goal is relative ranking, not predicting virality. The pipeline looks for complete ideas rather than arbitrary time windows, then builds a coherent short from each one.",
+      "الهدف ترتيب نسبي لا التنبؤ بالانتشار. يبحث المسار عن أفكار مكتملة بدل نوافذ زمنية عشوائية، ثم يبني من كل فكرة مقطعًا قصيرًا متماسكًا.",
+    ),
+    L(
+      "Language models are allowed only where they add judgment: checking an edit, analyzing hooks, and classifying style. They never decide what to find or how to rank.",
+      "النماذج اللغوية مسموحة فقط حيث تضيف حُكمًا: مراجعة المونتاج وتحليل الجُمل الافتتاحية وتصنيف الأسلوب. ولا تقرر أبدًا ما الذي يُكتشف أو كيف يُرتَّب.",
+    ),
+    L(
+      "Every stage is measured against simpler baselines before it is trusted.",
+      "كل مرحلة تُقاس مقابل خطوط أساس أبسط قبل أن نثق بها.",
+    ),
+    L(
+      "The business path is pro and enterprise plans, so the product pays for itself as it scales.",
+      "مسار العمل خطط احترافية وخطط للشركات، فيغطي المنتج تكلفته بنفسه مع نموه.",
+    ),
+  ],
+  stack: ["Speech recognition with forced alignment", "Structure and boundary analysis", "OpenCV and MediaPipe", "Gradient-boosted ranker (planned)"],
+  links: [],
+  metrics: [],
+  cost: {
+    label: L("Cost model", "نموذج التكلفة"),
+    value: L("Designed to scale on pro and enterprise plans so it pays for itself", "مصمّم ليتوسع بخطط احترافية وخطط للشركات فيغطي تكلفته بنفسه"),
+    confirmed: true,
+  },
+  disclaimers: [],
+  views: [
+    {
+      id: "pipeline",
+      title: L("Pipeline", "المسار"),
+      credit: "me",
+      illustrative: true,
+      nodes: [
+        { id: "upload", label: L("Upload", "الرفع") },
+        { id: "transcribe", label: L("Transcribe and align", "النسخ والمحاذاة") },
+        { id: "structure", label: L("Structure and boundaries", "البنية والحدود") },
+        { id: "discover", label: L("Candidate regions", "المناطق المرشّحة"), detail: L("The pipeline looks for complete ideas and events, not fixed time windows, and checks each candidate against deterministic rules.", "يبحث المسار عن أفكار وأحداث مكتملة لا نوافذ زمنية ثابتة، ويفحص كل مرشّح بقواعد حتمية.") },
+        { id: "prioritize", label: L("Tier 1 prioritizer", "مُرتِّب المستوى الأول") },
+        { id: "plan", label: L("Edit planning", "تخطيط المونتاج") },
+        { id: "verify", label: L("Verification and repair", "التحقق والإصلاح"), detail: L("Hard checks and a viewer-only structured judge review each planned edit, and the pipeline repairs what fails.", "فحوص صارمة وحَكَم منظّم يرى ما يراه المشاهد فقط يراجعان كل مونتاج مخطَّط، ويصلح المسار ما يفشل.") },
+        { id: "render", label: L("Reframe, captions, render", "إعادة التأطير والترجمة والتصيير") },
+        { id: "rank", label: L("Tier 2 ranker", "مُرتِّب المستوى الثاني") },
+        { id: "out", label: L("Ranked clips", "المقاطع المرتّبة") },
+      ],
+      edges: [
+        { from: "upload", to: "transcribe" },
+        { from: "transcribe", to: "structure" },
+        { from: "structure", to: "discover" },
+        { from: "discover", to: "prioritize" },
+        { from: "prioritize", to: "plan" },
+        { from: "plan", to: "verify" },
+        { from: "verify", to: "render" },
+        { from: "render", to: "rank" },
+        { from: "rank", to: "out" },
+      ],
+      flows: [{ id: "full", label: L("One video, end to end", "فيديو واحد من البداية للنهاية"), path: ["upload", "transcribe", "structure", "discover", "prioritize", "plan", "verify", "render", "rank", "out"] }],
+    },
+    {
+      id: "phases",
+      title: L("Phase roadmap", "خارطة المراحل"),
+      credit: "me",
+      illustrative: false,
+      nodes: [
+        { id: "p0", label: L("Phase 0: foundations and evaluation harness", "المرحلة 0: الأساسات ومنظومة التقييم") },
+        { id: "p1", label: L("Phase 1: adaptive candidate discovery", "المرحلة 1: اكتشاف المرشّحين التكيّفي") },
+        { id: "p2", label: L("Phase 2: style, editing, verification, hooks, Tier 2", "المرحلة 2: الأسلوب والمونتاج والتحقق والجمل الافتتاحية والمستوى الثاني") },
+        { id: "p3", label: L("Phase 3: rendering and publication loop", "المرحلة 3: التصيير وحلقة النشر") },
+        { id: "p4", label: L("Phase 4: trend experiment", "المرحلة 4: تجربة الاتجاهات") },
+        { id: "p5", label: L("Phase 5: learned ranking", "المرحلة 5: الترتيب بالتعلّم") },
+        { id: "p6", label: L("Phase 6: scale and optional generation", "المرحلة 6: التوسّع والتوليد الاختياري") },
+      ],
+      edges: [
+        { from: "p0", to: "p1" },
+        { from: "p1", to: "p2" },
+        { from: "p2", to: "p3" },
+        { from: "p3", to: "p4" },
+        { from: "p4", to: "p5" },
+        { from: "p5", to: "p6" },
+      ],
+    },
+  ],
+  tags: ["video", "pipeline", "ranking", "llm-limits", "evaluation", "python", "architecture"],
+  agentNotes:
+    "Status is in progress; the first phases are implemented (exact phase unresolved, C4). Never claim live users, accuracy, or predicted performance. The pipeline view is a design walkthrough with illustrative data until real output exists.",
+};

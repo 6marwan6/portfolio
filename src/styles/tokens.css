@@ -1,0 +1,15 @@
+:root {
+  --bg: #f2f5f8;
+  --surface: #ffffff;
+  --ink: #0e1b2b;
+  --muted: #52627a;
+  --line: #d6dee7;
+  --accent-rootx: #1f4bff;
+  --accent-intelliroom: #e8912d;
+  --accent-mari: #f0485f;
+  --accent-shorts: #6b4dff;
+  --accent: var(--ink);
+  --font: "Readex Pro", system-ui, "Segoe UI", Tahoma, Arial, sans-serif;
+  --measure: 68ch;
+  --radius: 6px;
+}
